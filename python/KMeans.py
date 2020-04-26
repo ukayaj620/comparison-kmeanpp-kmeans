@@ -40,7 +40,7 @@ fig = plt.figure(figsize=(10, 10))
 plt.scatter(df['x'], df['y'], color='k')
 color_data_point = {1: 'red', 2: 'green', 3: 'blue', 4: 'yellow'}
 for i in centroids.keys():
-    plt.scatter(x=centroids[i][0], y=centroids[i][1], color=color_data_point[i])
+    plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
 
 plt.show()
 
@@ -80,7 +80,7 @@ def visualize():
     plt.figure(figsize=(10, 10))
     plt.scatter(df['x'], df['y'], color=df['color'], alpha=0.3, edgecolors='k')
     for i in centroids.keys():
-        plt.scatter(x=centroids[i][0], y=centroids[i][1], color=color_data_point[i])
+        plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
     plt.show()
 
 
