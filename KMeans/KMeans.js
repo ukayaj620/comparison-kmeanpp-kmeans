@@ -24,12 +24,8 @@ let n=300,k=6,fps=5;
  */
 
 function updateglobal(data,cluster){
-    for(let i = 0; i < cluster.length; i++){
-        cluster[i].update("cluster");
-    }
-    for(let i = 0; i < data.length; i++){
-        data[i].update("data");
-    }
+    for(let i = 0; i < cluster.length; i++) cluster[i].update("cluster");
+    for(let i = 0; i < data.length; i++) data[i].update("data");
 }
 
 /**
@@ -42,9 +38,7 @@ function updateglobal(data,cluster){
  */
 
 function eucdist(a,b,c,d){
-    let x = Math.abs(a-b);
-    let y = Math.abs(c-d);
-    return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+    return Math.sqrt(Math.pow(Math.abs(a-b),2)+Math.pow(Math.abs(c-d),2));
 }
 
 /**
@@ -99,6 +93,14 @@ function moveclust(data,cluster){
         cluster[i].chcoo(sum_x/cnt,sum_y/cnt);
     }
 }
+
+/**
+ * randomWeighted() : function random point dengan kecenderungan untuk berkumpul di satu point
+ * @param centerX : point kecenderungan (koordinat X)
+ * @param centerY : point kecenderungan (koordinat Y)
+ * @param scale : skala penyebaran point
+ * @param density : kepadatan point dalam area tersebut
+ */
 
 function randomWeighted(centerX,centerY,scale,density){
     let angle = random()*2*Math.PI;
@@ -199,6 +201,8 @@ function draw(){
         //jumlah data yang terhubung di tiap cluster
         for(let i = 0; i < Kclust.length; i++) partition[i] = 0;
         for(let i of data) partition[i.parent-1]++;
+
+        //menentukan status konvergensi
         if(!bool1){
             bool1 = true;
             let same = true;
@@ -214,6 +218,8 @@ function draw(){
         background(51);
         moveclust(data, Kclust);
         updateglobal(data, Kclust);
+
+        //menentukan status konvergensi
         if(bool1){
             bool1 = false;
             for(let i=0;i<partition.length;i++) prevpar[i] = partition[i];
