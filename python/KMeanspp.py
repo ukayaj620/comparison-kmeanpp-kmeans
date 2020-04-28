@@ -64,7 +64,7 @@ def initialize(data, k):
     return centroids
 
 
-centroids = initialize(data, 4)
+centroids = initialize(data, 5)
 
 # initialization process done
 
@@ -74,7 +74,8 @@ centroids = {
     1: [centroids[0][0], centroids[0][1]],
     2: [centroids[1][0], centroids[1][1]],
     3: [centroids[2][0], centroids[2][1]],
-    4: [centroids[3][0], centroids[3][1]]
+    4: [centroids[3][0], centroids[3][1]],
+    5: [centroids[4][0], centroids[4][1]]
 }
 
 print('Centroids: {}'.format(centroids))
@@ -83,7 +84,7 @@ print(centroids.keys())
 
 fig = plt.figure(figsize=(10, 10))
 plt.scatter(df['x'], df['y'], color='k')
-color_data_point = {1: 'red', 2: 'green', 3: 'blue', 4: 'yellow'}
+color_data_point = {1: 'red', 2: 'green', 3: 'blue', 4: 'yellow', 5: 'purple'}
 for i in centroids.keys():
     plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
 
@@ -121,19 +122,23 @@ def update_centroid(centroids):
     return centroids
 
 
-def visualize():
+def visualize(j):
     plt.figure(figsize=(10, 10))
     plt.scatter(df['x'], df['y'], color=df['color'], alpha=0.3, edgecolors='k')
     for i in centroids.keys():
+        plt.title('iteration-' + str(j))
         plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
     plt.show()
 
+
+iteration = 1
 
 while True:
     closest_centroids = df['closest'].copy(deep=True)
     centroids = update_centroid(centroids)
     df = compute_cluster(df, centroids)
-    visualize()
+    visualize(iteration)
+    iteration += 1
     if closest_centroids.equals(df['closest']):
         break
 
