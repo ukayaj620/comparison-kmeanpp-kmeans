@@ -7,26 +7,31 @@ df = pd.read_csv('../datasets/IRIS.csv')
 data = df.iloc[:, 0:2].values
 
 df['species'] = pd.Categorical(df['species'])
-df['species'] = df['species'].cat.codes
 yTrue = df['species']
 
-centroids = {
-    0: data[np.random.randint(150)],
-    1: data[np.random.randint(150)],
-    2: data[np.random.randint(150)]
-}
-
-print('Centroids: {}'.format(centroids))
-
-print(centroids.keys())
-
-fig = plt.figure(figsize=(10, 10))
-plt.scatter(df['sepal_length'], df['sepal_width'], color='k')
 color_data_point = {0: 'red', 1: 'green', 2: 'blue'}
-for i in centroids.keys():
-    plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
 
-plt.show()
+
+def wcv(df):
+    wcv_value = 0
+    for index, row in df.iterrows():
+        wcv_value += row['min'] ** 2
+
+    return wcv_value
+
+
+def bcv(centroids):
+
+    bcv_value = 0
+    for i in centroids.keys():
+        for j in centroids.keys():
+            if i < j:
+                distance = 0
+                for k in range(0, len(centroids[i])):
+                    distance += (centroids[i][k] - centroids[j][k]) ** 2
+                bcv_value += np.sqrt(distance)
+
+    return bcv_value
 
 
 def compute_cluster(df, centroids):
@@ -42,13 +47,13 @@ def compute_cluster(df, centroids):
     distance_from_centroid = ['distance_from_{}'.format(i) for i in centroids.keys()]
     df['closest'] = df.loc[:, distance_from_centroid].idxmin(axis=1)
     df['closest'] = df['closest'].map(lambda x: int(x.lstrip('distance_from_')))
+    df['min'] = df.loc[:, distance_from_centroid].min(axis=1)
+    wcv_value = wcv(df)
+    print('WCV: ' + str(wcv_value))
     df['color'] = df['closest'].map(lambda x: color_data_point[x])
 
     # print(df)
     return df
-
-
-df = compute_cluster(df, centroids)
 
 
 def update_centroid(centroids):
@@ -57,6 +62,8 @@ def update_centroid(centroids):
         centroids[i][1] = np.mean(df[df['closest'] == i]['sepal_width'])
 
     print('Centroids: {}'.format(centroids))
+    bcv_value = bcv(centroids)
+    print('BCV: ' + str(bcv_value))
     return centroids
 
 
@@ -68,7 +75,25 @@ def visualize(j):
         plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
     plt.show()
 
-iteration = 0
+centroids = {
+    0: data[np.random.randint(150)],
+    1: data[np.random.randint(150)],
+    2: data[np.random.randint(150)]
+}
+
+fig = plt.figure(figsize=(10, 10))
+plt.scatter(df['sepal_length'], df['sepal_width'], color='k')
+for i in centroids.keys():
+    plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
+
+plt.show()
+
+print('Centroids: {}'.format(centroids))
+bcv_value = bcv(centroids)
+print('BCV: ' + str(bcv_value))
+df = compute_cluster(df, centroids)
+
+iteration = 1
 while True:
     closest_centroids = df['closest'].copy(deep=True)
     centroids = update_centroid(centroids)
