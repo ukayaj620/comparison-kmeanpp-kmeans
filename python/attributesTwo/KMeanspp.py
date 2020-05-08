@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv('../datasets/IRIS.csv')
 
-data = df.iloc[:, 0:2].values
+data = df.iloc[:, 2:4].values
 
 df['species'] = pd.Categorical(df['species'])
 yTrue = df['species']
@@ -72,8 +72,8 @@ def compute_cluster(df, centroids):
     for i in centroids.keys():
         df['distance_from_{}'.format(i)] = (
             np.sqrt(
-                (df['sepal_length'] - centroids[i][0]) ** 2
-                + (df['sepal_width'] - centroids[i][1]) ** 2
+                (df['petal_length'] - centroids[i][0]) ** 2
+                + (df['petal_width'] - centroids[i][1]) ** 2
             )
         )
 
@@ -90,8 +90,8 @@ def compute_cluster(df, centroids):
 
 def update_centroid(centroids):
     for i in centroids.keys():
-        centroids[i][0] = np.mean(df[df['closest'] == i]['sepal_length'])
-        centroids[i][1] = np.mean(df[df['closest'] == i]['sepal_width'])
+        centroids[i][0] = np.mean(df[df['closest'] == i]['petal_length'])
+        centroids[i][1] = np.mean(df[df['closest'] == i]['petal_width'])
 
     print('Centroids: {}'.format(centroids))
     bcv_value = bcv(centroids)
@@ -100,8 +100,10 @@ def update_centroid(centroids):
 
 
 def visualize(j):
-    plt.figure(figsize=(10, 10))
-    plt.scatter(df['sepal_length'], df['sepal_width'], color=df['color'], alpha=0.3, edgecolors='k')
+    plt.figure(figsize=(7, 5))
+    plt.scatter(df['petal_length'], df['petal_width'], color=df['color'], alpha=0.3, edgecolors='k')
+    plt.xlabel('Petal Length', fontsize=18)
+    plt.ylabel('Petal Width', fontsize=18)
     for i in centroids.keys():
         plt.title('iteration-' + str(j))
         plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
@@ -118,8 +120,10 @@ centroids = {
     2: centroids[2]
 }
 
-fig = plt.figure(figsize=(10, 10))
-plt.scatter(df['sepal_length'], df['sepal_width'], color='k')
+fig = plt.figure(figsize=(7, 5))
+plt.scatter(df['petal_length'], df['petal_width'], color='k')
+plt.xlabel('Petal Length', fontsize=18)
+plt.ylabel('Petal Width', fontsize=18)
 for i in centroids.keys():
     plt.scatter(x=centroids[i][0], y=centroids[i][1], s=200, color=color_data_point[i])
 

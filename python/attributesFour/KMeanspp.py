@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import random as rn
 import sys
 
 df = pd.read_csv('../datasets/IRIS.csv')
@@ -60,7 +59,6 @@ def bcv(centroids):
                 bcv_value += np.sqrt(distance)
 
     return bcv_value
-
 
 
 def compute_cluster(df, centroids):

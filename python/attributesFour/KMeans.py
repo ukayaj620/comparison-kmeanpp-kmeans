@@ -31,7 +31,6 @@ def bcv(centroids):
     return bcv_value
 
 
-
 def compute_cluster(df, centroids):
 
     for i in centroids.keys():
@@ -51,7 +50,6 @@ def compute_cluster(df, centroids):
     wcv_value = wcv(df)
     print('WCV: ' + str(wcv_value))
 
-    # print(df)
     return df
 
 
@@ -67,11 +65,15 @@ def update_centroid(centroids):
     print('BCV: ' + str(bcv_value))
     return centroids
 
+sepal_length = np.random.rand(3, 1) * df['sepal_length'].std() + df['sepal_length'].mean()
+sepal_width = np.random.rand(3, 1) * df['sepal_width'].std() + df['sepal_width'].mean()
+petal_length = np.random.rand(3, 1) * df['petal_length'].std() + df['petal_length'].mean()
+petal_width = np.random.rand(3, 1) * df['petal_width'].std() + df['petal_width'].mean()
 
 centroids = {
-    0: data[np.random.randint(150)],
-    1: data[np.random.randint(150)],
-    2: data[np.random.randint(150)]
+    0: [sepal_length[0], sepal_width[0], petal_length[0], petal_width[0]],
+    1: [sepal_length[1], sepal_width[1], petal_length[1], petal_width[1]],
+    2:  [sepal_length[2], sepal_width[2], petal_length[2], petal_width[2]]
 }
 
 print('Centroids: {}'.format(centroids))
