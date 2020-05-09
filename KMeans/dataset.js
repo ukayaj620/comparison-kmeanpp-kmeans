@@ -1,18 +1,22 @@
 class dataset{
-    constructor(x,y,parent){
-        this.x = x; //x coordinate
-        this.y = y; //y coordinate
+    constructor(x,y,parent,scalex,scaley){
+        if(scalex === undefined && scaley === undefined) scalex = scaley = 1;
+
+        this.x = x*scalex; //x coordinate
+        this.y = y*scaley; //y coordinate
         this.color = []; //this object color
+        this.fillcolor = [];
         this.distpar = 0; //this object's distance to parent
         this.parent = parent; //this object's parent
     }
 
     //sets color
-    setcolor(color){
-        for(let i = 0; i < color.length; i++){
-            this.color[i] = color[i];
-        }
+    setcolor(color,incolor){
+        for(let i = 0; i < color.length; i++) this.color[i] = color[i];
+        if(incolor === undefined) incolor = [255, 255, 255];
+        else if(incolor !== typeof "") for(let i = 0; i < incolor.length; i++) this.fillcolor[i] = incolor[i];
     }
+
 
     //sets new coordinate
     chcoo(x,y){
@@ -35,8 +39,8 @@ class dataset{
             strokeWeight(14);
             point(this.x, this.y);
 
-            stroke(255);
-            strokeWeight(4);
+            stroke(this.fillcolor[0],this.fillcolor[1],this.fillcolor[2]);
+            strokeWeight(6);
             point(this.x, this.y);
         }
     }
