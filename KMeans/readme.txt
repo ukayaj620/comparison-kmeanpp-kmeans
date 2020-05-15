@@ -1,5 +1,5 @@
 untuk mengganti parameter, edit file Kmeans.js dengan notepad dan hanya ubah variable di inisialisasi variabel ke dua seperti di bawah.
-untuk menjalankan program, klik file html yang ada (Kmeans & Kmeans++.html), program ini akan jalan di browser default yang digunakan
+untuk menjalankan program, klik file html yang ada (index.html), program ini akan jalan di browser default yang digunakan
 
 /**
  * n : jumlah data
