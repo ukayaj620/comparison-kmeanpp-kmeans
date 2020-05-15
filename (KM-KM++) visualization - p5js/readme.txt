@@ -1,5 +1,6 @@
 untuk mengganti parameter, edit file Kmeans.js dengan notepad dan hanya ubah variable di inisialisasi variabel ke dua seperti di bawah.
-untuk menjalankan filenya, klik "run.bat", command prompt akan muncul untuk menjalankan filenya di browser
+untuk menjalankan filenya, klik "run.bat", command prompt akan muncul untuk menjalankan filenya di browser.(harus sudah install python di sistem)
+setelah mengubah parameter di Kmeans.js, force reload web page dengan cara Ctrl+F5.
 
 /**
  * n : jumlah data
